@@ -1,0 +1,9 @@
+Executed in assistant environment, 2026-10-28
+Python 3.12; train.py completed.
+pytest: 3 passed, 1 dependency deprecation warning.
+Live Uvicorn HTTP: GET /health 200, POST /predict 200.
+Sample prediction: 14902.11 INR.
+Colab: prepared, not run on Colab.
+Docker: prepared, not executed (Docker unavailable).
+GitHub repository: not created (integration lacks repository creation).
+GitHub Actions: workflow prepared; hosted run not executed or verified.

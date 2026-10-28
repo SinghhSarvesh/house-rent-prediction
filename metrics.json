@@ -1,0 +1,10 @@
+{
+  "train_rows": 3796,
+  "test_rows": 950,
+  "mae_inr": 13305.513306488563,
+  "rmse_inr": 36832.08432013832,
+  "r2": 0.6596053608421064,
+  "baseline_mae_inr": 24269.45894736842,
+  "test_size": 0.2,
+  "random_state": 42
+}

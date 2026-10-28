@@ -1,0 +1,39 @@
+name: House Rent CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+      - name: Train and save model
+        run: python train.py
+      - name: Test API and model
+        run: python -m pytest -q
+      - name: Build Docker image
+        run: docker build -t house-rent-api .
+      - name: Start Docker container
+        run: docker run -d --name rent-api -p 8000:8000 house-rent-api
+      - name: Wait for API and test endpoints
+        run: |
+          for i in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8000/health; then break; fi
+            sleep 2
+          done
+          python smoke_test.py
+      - name: Show container logs
+        if: always()
+        run: docker logs rent-api || true
+      - name: Stop container
+        if: always()
+        run: docker rm -f rent-api || true
